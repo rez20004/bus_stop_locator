@@ -1,0 +1,5 @@
+<h1>Input your location and we will find the closest stop to you</h1>
+<%= form_for :map, url: map_index_path, method: :post do |f| %>
+<%= f.label "Input your location" %>
+<%= f.text_field :location %>
+<% end %>
