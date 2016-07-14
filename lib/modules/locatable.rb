@@ -8,6 +8,8 @@ module Locatable
 
   module ClosestStation
     def closest_to(lat, long)
+      @lat = lat
+      @long = long
       station_correlation = {}
       self.all.each do |station|
         station_correlation[station] = (Haversine.distance(station.latitude, station.longitude, lat, long).to_miles)
@@ -32,12 +34,11 @@ class Station
     @latitude, @longitude = lat, long
   end
 
+
   def self.all
-    data = HTTParty.get "https://maps.googleapis.com/maps/api/place/textsearch/xml?query=bus+stop&key=#{ENV['GOOGLE_PLACES_KEY2']}&type=bus_station"
-
-    data["PlaceSearchResponse"]["result"].map do |f|
-      Station.new f["geometry"]["location"]["lat"].to_f, f["geometry"]["location"]["lng"].to_f
-    end
-
+    data = HTTParty.get "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=#{@lat},#{@long}&radius=50000&type=bus_station&name=bus&key=#{ENV['GOOGLE_PLACES_KEY2']}"
+    data["results"].map do |f|
+      Station.new f["geometry"]["location"]["lat"], f["geometry"]["location"]["lng"]
+   end
   end
 end
