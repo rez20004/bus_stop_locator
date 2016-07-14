@@ -20,7 +20,7 @@ module Locatable
         station_correlation = station_correlation.sort_by{ |k, v| v }
         return station_correlation.first.first
       end
-      #I did not find any bus stations at that location. Please try another
+      # I did not find any bus stations at that location. Please try another
     end
   end
 
@@ -33,7 +33,7 @@ end
 class Station
   attr_reader :latitude, :longitude
   include Locatable
-  def initialize lat, long
+  def initialize(lat, long)
     @latitude, @longitude = lat, long
   end
 
@@ -43,8 +43,9 @@ class Station
       &type=bus_station
       &name=bus
       &key=#{ENV['GOOGLE_PLACES_KEY2']}"
-    data["results"].map do |f|
-      Station.new f["geometry"]["location"]["lat"], f["geometry"]["location"]["lng"]
-   end
+    data['results'].map do |f|
+      Station.new f['geometry']['location']['lat'],
+                  f['geometry']['location']['lng']
+    end
   end
 end

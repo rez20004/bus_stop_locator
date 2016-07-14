@@ -7,7 +7,6 @@ class MapController < ApplicationController
     place = params[:map][:location]
     @place = place.strip.gsub(/\s/,'+')
     lat_and_long_call
-    binding.pry
     @closest = Station.closest_to(@latitude.to_f, @longitude.to_f)
   end
 
