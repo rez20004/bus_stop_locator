@@ -6,15 +6,13 @@ class MapController < ApplicationController
   def create
     place = params[:map][:location]
     @place = place.strip.gsub(/\s/,'+')
-    data = HTTParty.get "https://maps.googleapis.com/maps/api/place/textsearch/xml?query=#{place}&key=#{ENV['GOOGLE_PLACES_KEY']}"
-    begin
-      @latitude = Array(data["PlaceSearchResponse"]["result"]).first["geometry"]["location"]["lat"]
-      @longitude = Array(data["PlaceSearchResponse"]["result"]).first["geometry"]["location"]["lng"]
-      @name = Array(data["PlaceSearchResponse"]["result"]).first["name"]
-
-    rescue
-      puts "that is not a valid place. Please be more specific"
-    end
+    data = HTTParty.get "https://maps.googleapis.com/maps/api/place/textsearch/xml?query=#{place}&key=#{ENV['GOOGLE_PLACES_KEY2']}"
+    binding.pry
+      @latitude = data["PlaceSearchResponse"]["result"]["geometry"]["location"]["lat"]
+      binding.pry
+      @longitude = (data["PlaceSearchResponse"]["result"])["geometry"]["location"]["lng"]
+      @name = data["PlaceSearchResponse"]["result"]["name"]
+      binding.pry
     @closest = Station.closest_to(@latitude.to_i, @longitude.to_i)
   end
 end
