@@ -36,7 +36,7 @@ class Station
     data = HTTParty.get "https://maps.googleapis.com/maps/api/place/textsearch/xml?query=bus+stop&key=#{ENV['GOOGLE_PLACES_KEY2']}&type=bus_station"
 
     data["PlaceSearchResponse"]["result"].map do |f|
-      Station.new f["geometry"]["location"]["lat"].to_i, f["geometry"]["location"]["lng"].to_i
+      Station.new f["geometry"]["location"]["lat"].to_f, f["geometry"]["location"]["lng"].to_f
     end
 
   end

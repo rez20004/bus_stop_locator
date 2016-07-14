@@ -13,6 +13,6 @@ class MapController < ApplicationController
       @longitude = (data["PlaceSearchResponse"]["result"])["geometry"]["location"]["lng"]
       @name = data["PlaceSearchResponse"]["result"]["name"]
       binding.pry
-    @closest = Station.closest_to(@latitude.to_i, @longitude.to_i)
+    @closest = Station.closest_to(@latitude.to_f, @longitude.to_f)
   end
 end
